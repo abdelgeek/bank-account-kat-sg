@@ -1,6 +1,6 @@
 package bankaccount.repository;
 
-import bankaccount.model.entities.Account;
+import bankaccount.domain.entities.Account;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
@@ -53,4 +53,6 @@ class AccountRepositoryDefaultTest {
     //Then
     Assertions.assertTrue(optionalAccount.isEmpty());
   }
+
+
 }

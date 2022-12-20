@@ -1,4 +1,4 @@
-package bankaccount.model.service;
+package bankaccount.service;
 
 import java.math.BigDecimal;
 
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  *
  * @author CISSE Abdoulaye 2022-12-15
  */
-public interface UpdateBalance {
+public interface CalculateNewBalance {
 
   BigDecimal execute(BigDecimal operationAmount, BigDecimal balance);
 }

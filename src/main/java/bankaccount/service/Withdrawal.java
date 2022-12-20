@@ -1,7 +1,7 @@
-package bankaccount.model.service;
+package bankaccount.service;
 
-import bankaccount.model.entities.Account;
-import bankaccount.model.exception.InsufficientBalanceException;
+import bankaccount.domain.entities.Account;
+import bankaccount.service.exception.InsufficientBalanceException;
 import java.math.BigDecimal;
 
 /**
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  *
  * @author CISSE Abdoulaye 2022-12-15
  */
-public class Withdrawal implements UpdateBalance {
+public class Withdrawal implements CalculateNewBalance {
 
   @Override
   public BigDecimal execute(BigDecimal operationAmount, BigDecimal actualAccountBalance) {

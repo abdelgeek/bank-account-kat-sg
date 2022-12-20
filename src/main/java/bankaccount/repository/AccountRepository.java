@@ -1,6 +1,6 @@
 package bankaccount.repository;
 
-import bankaccount.model.entities.Account;
+import bankaccount.domain.entities.Account;
 import java.util.Optional;
 
 /**

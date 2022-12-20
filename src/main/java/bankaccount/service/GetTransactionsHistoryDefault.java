@@ -1,7 +1,7 @@
 package bankaccount.service;
 
-import bankaccount.model.entities.Account;
-import bankaccount.model.entities.Transaction;
+import bankaccount.domain.entities.Account;
+import bankaccount.domain.entities.Transaction;
 import bankaccount.repository.AccountRepository;
 import bankaccount.service.exception.AccountNumberNotFound;
 import java.util.List;

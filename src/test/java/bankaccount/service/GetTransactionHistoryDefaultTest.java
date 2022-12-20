@@ -2,11 +2,12 @@ package bankaccount.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import bankaccount.model.entities.Account;
-import bankaccount.model.entities.Transaction;
-import bankaccount.model.valueobject.TransactionType;
+import bankaccount.domain.entities.Account;
+import bankaccount.domain.entities.Transaction;
+import bankaccount.dto.TransactionType;
 import bankaccount.repository.AccountRepository;
 import bankaccount.service.exception.AccountNumberNotFound;
 import java.math.BigDecimal;
@@ -21,8 +22,8 @@ import org.mockito.Mockito;
  */
 class GetTransactionHistoryDefaultTest {
 
+  private final String accountNumber = "AC001";
   private AccountRepository accountRepository;
-
 
   @Test
   public void get_transactions_history_with_unknown_account() {
@@ -30,8 +31,6 @@ class GetTransactionHistoryDefaultTest {
     //Given
     accountRepository = mock(AccountRepository.class);
     GetTransactionsHistory getTransactionsHistory = new GetTransactionsHistoryDefault(accountRepository);
-
-    String accountNumber = "AC001";
 
     //When
     Mockito.when(accountRepository.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
@@ -43,7 +42,6 @@ class GetTransactionHistoryDefaultTest {
       });
   }
 
-
   @Test
   public void get_transactions_history_with_known_account() {
 
@@ -51,7 +49,6 @@ class GetTransactionHistoryDefaultTest {
     accountRepository = mock(AccountRepository.class);
     GetTransactionsHistory getTransactionsHistory = new GetTransactionsHistoryDefault(accountRepository);
 
-    String accountNumber = "AC001";
     Account account = new Account(accountNumber, BigDecimal.valueOf(40_000));
 
     Transaction transaction1 = new Transaction(LocalDateTime.now(),
@@ -61,7 +58,6 @@ class GetTransactionHistoryDefaultTest {
     List<Transaction> transactions = List.of(transaction1, transaction2);
     account.setTransactions(transactions);
 
-
     //When
     Mockito.when(accountRepository.findByAccountNumber(accountNumber)).thenReturn(Optional.of(account));
     List<Transaction> transactionsActual = getTransactionsHistory.get(accountNumber);
@@ -70,4 +66,17 @@ class GetTransactionHistoryDefaultTest {
     assertEquals(2, transactionsActual.size());
     assertEquals(transactions, transactionsActual);
   }
+
+  @Test
+  public void transactions_history_with_no_Transactions_do() {
+    //Given
+    BigDecimal initialBalance = BigDecimal.valueOf(20_000);
+    Account account = new Account(accountNumber, initialBalance);
+
+
+    //then
+    List<Transaction> transactions = account.transactionsHistory();
+    assertTrue(transactions.isEmpty());
+  }
+
 }

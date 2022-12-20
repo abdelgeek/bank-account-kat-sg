@@ -1,9 +1,9 @@
 package bankaccount;
 
 import bankaccount.dto.TransactionCommand;
-import bankaccount.model.entities.Account;
-import bankaccount.model.entities.Transaction;
-import bankaccount.model.valueobject.TransactionType;
+import bankaccount.domain.entities.Account;
+import bankaccount.domain.entities.Transaction;
+import bankaccount.dto.TransactionType;
 import bankaccount.repository.AccountRepository;
 import bankaccount.repository.AccountRepositoryDefault;
 import bankaccount.service.AccountTransaction;

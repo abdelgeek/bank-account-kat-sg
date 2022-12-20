@@ -1,4 +1,4 @@
-package bankaccount.model.exception;
+package bankaccount.service.exception;
 
 /**
  * <p> This exception is thrown when the amount to make a operation  is negative.</p>

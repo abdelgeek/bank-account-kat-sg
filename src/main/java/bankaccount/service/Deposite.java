@@ -1,6 +1,6 @@
-package bankaccount.model.service;
+package bankaccount.service;
 
-import bankaccount.model.entities.Account;
+import bankaccount.domain.entities.Account;
 import java.math.BigDecimal;
 
 /**
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  *
  * @author CISSE Abdoulaye 2022-12-15
  */
-public class Deposite implements UpdateBalance {
+public class Deposite implements CalculateNewBalance {
 
   @Override
   public BigDecimal execute(BigDecimal operationAmount, BigDecimal actualAccountBalance) {

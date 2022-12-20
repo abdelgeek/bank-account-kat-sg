@@ -1,6 +1,6 @@
-package bankaccount.model.entities;
+package bankaccount.domain.entities;
 
-import bankaccount.model.valueobject.TransactionType;
+import bankaccount.dto.TransactionType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -18,7 +18,10 @@ public record Transaction(
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Transaction that = (Transaction) o;
-    return Objects.equals(date, that.date) && Objects.equals(amount, that.amount) && Objects.equals(accountBalance, that.accountBalance) && transactionType == that.transactionType;
+    return Objects.equals(date, that.date)
+      && Objects.equals(amount, that.amount)
+      && Objects.equals(accountBalance, that.accountBalance)
+      && transactionType == that.transactionType;
   }
 
   @Override
