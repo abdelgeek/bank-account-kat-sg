@@ -23,3 +23,5 @@ The architecture used is the hexagonal  architecture. It allows an application t
 * Junit 
 * Mockito
 * Maven
+* DDD
+* TDD
