@@ -14,12 +14,8 @@ Think of your personal bank account experience When in doubt,
 
 ### Architecture
 
-The architecture used is a layered architecture that separates the written code into 4 layers:
-   
-    - domain : encapsulates all the objects specific to our information system
-    - service : represents the layer where all business processes are performed
-    - dto : encapsulates the transversal data that are used in all the other layers
-    - repository : this layer allows to simulate an account storage.
+The architecture used is the hexagonal  architecture. It allows an application to equally be driven by users, programs, automated test or batch scripts, and to be developed and tested in isolation from its eventual run-time devices and databases. It allows to isolate the core business of an application and to automatically test its behavior different from all the rest.
+    
 
 ### Technologies used
 
