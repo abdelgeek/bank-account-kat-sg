@@ -1,15 +1,15 @@
 package bankaccount;
 
-import bankaccount.dto.TransactionCommand;
-import bankaccount.domain.entities.Account;
-import bankaccount.domain.entities.Transaction;
-import bankaccount.dto.TransactionType;
-import bankaccount.repository.AccountRepository;
-import bankaccount.repository.AccountRepositoryDefault;
-import bankaccount.service.AccountTransaction;
-import bankaccount.service.AccountTransactionDefault;
-import bankaccount.service.GetTransactionsHistory;
-import bankaccount.service.GetTransactionsHistoryDefault;
+import bankaccount.core.application.port.secondaire.AccountPort;
+import bankaccount.core.application.usecase.RequestConsumer;
+import bankaccount.core.application.usecase.RequestFunction;
+import bankaccount.core.application.usecase.executetransaction.ExecuteTransactionUseCase;
+import bankaccount.core.application.usecase.executetransaction.TransactionCommand;
+import bankaccount.core.application.usecase.gettransactionshistory.GetTransactionHistory;
+import bankaccount.core.domain.entity.Account;
+import bankaccount.core.domain.entity.Transaction;
+import bankaccount.core.domain.objectvalue.TransactionType;
+import bankaccount.infrastructure.repository.AccountRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.Set;
 public class Main {
 
   public static void main(String[] args) {
-    AccountRepository accountRepository = initializeAccountRepository();
+    AccountPort accountPort = initializeAccountRepository();
 
-    AccountTransaction accountTransaction = new AccountTransactionDefault(accountRepository);
+    RequestConsumer<TransactionCommand> requestConsumer = new ExecuteTransactionUseCase(accountPort);
 
     String accountNumber = "AC001";
     BigDecimal amount1 = BigDecimal.valueOf(100_000);
@@ -31,7 +31,7 @@ public class Main {
     LocalDateTime dateOperation1 = LocalDateTime.now();
     TransactionCommand transactionCommand1 = new TransactionCommand(accountNumber, dateOperation1, amount1, transactionType1);
 
-    accountTransaction.doTransaction(transactionCommand1);
+    requestConsumer.execute(transactionCommand1);
 
 
     BigDecimal amount2 = BigDecimal.valueOf(50_000);
@@ -39,20 +39,20 @@ public class Main {
     LocalDateTime dateOperation2 = LocalDateTime.now();
     TransactionCommand transactionCommand2 = new TransactionCommand(accountNumber, dateOperation2, amount2, transactionType2);
 
-    accountTransaction.doTransaction(transactionCommand2);
+    requestConsumer.execute(transactionCommand2);
 
-    GetTransactionsHistory getTransactionsHistory = new GetTransactionsHistoryDefault(accountRepository);
-    List<Transaction> transactions = getTransactionsHistory.get("AC001");
+    RequestFunction<List<Transaction>, String> requestFunction = new GetTransactionHistory(accountPort);
+    List<Transaction> transactions = requestFunction.apply("AC001");
 
     System.out.println("date ||  amount ||  transaction Type ||  balance");
     transactions.forEach(transaction ->
       System.out.printf("%tD ||  %s ||  %s ||  %s %n",
-        transaction.date(), transaction.amount().toString(), transaction.transactionType()
-        , transaction.accountBalance().toString())
+        transaction.getDate(), transaction.getAmount().toString(), transaction.getTransactionType()
+        , transaction.getAccountBalance().toString())
     );
   }
 
-  private static AccountRepository initializeAccountRepository() {
+  private static AccountPort initializeAccountRepository() {
     String accountNumber1 = "AC001";
     Account account1 = new Account(accountNumber1, BigDecimal.ZERO);
 
@@ -60,6 +60,6 @@ public class Main {
     Account account2 = new Account(accountNumber2, BigDecimal.ZERO);
 
     Set<Account> accountList = Set.of(account1, account2);
-    return new AccountRepositoryDefault(accountList);
+    return new AccountRepository(accountList);
   }
 }
